@@ -2,15 +2,21 @@ import {
 	Box,
 	Button,
 	Center,
+	Divider,
 	HStack,
 	Input,
+	layout,
 	NumberDecrementStepper,
 	NumberIncrementStepper,
 	NumberInput,
 	NumberInputField,
 	NumberInputStepper,
+	SimpleGrid,
+	Spacer,
 	Text,
 	VStack,
+	Wrap,
+	WrapItem,
 } from '@chakra-ui/react';
 
 import data from '../data';
@@ -30,30 +36,41 @@ const Boxes = () => {
 
 	const B = () => {
 		return (
-			<>
+			<Center>
 				{data.map((dd, index) => (
-					<VStack key={dd.id}>
-						<Box>
-							<Text>{state.h[index]}</Text>
-							<Image
-								alt={dd.name}
-								src={`/icn/${snap.h[index]}.svg`}
-								width={100}
-								height={100}
-							/>
-						</Box>
+					<SimpleGrid
+						p='2'
+						columns={[1, null, 1]}
+						key={dd.id}
+						spacing='30px'
+						justify='center'
+						align='center'
+						minChildWidth='50px'
+						spacingX='40px'
+						spacingY='20px'>
+						<Image
+							alt={dd.name}
+							src={`/icn/${snap.h[index]}.svg`}
+							width={100}
+							height={100}
+						/>
 
+						<Divider />
+						{state.h[index]}
 						<Button
+							color='yellow.800'
+							variant='solid'
+							colorScheme='yellow'
 							isDisabled={state.h[index] == snap.num}
 							onClick={() => {
 								state.total += 1;
-								state.h[index] = random(1, 5);
+								state.h[index] = random(1, 11);
 							}}>
-							{dd.name}
+							Click
 						</Button>
-					</VStack>
+					</SimpleGrid>
 				))}
-			</>
+			</Center>
 		);
 	};
 
@@ -76,66 +93,92 @@ export default function Main() {
 
 		state.num = nameEl.current.value;
 		state.h = [];
-		for (let index = 0; index < 5; index++) {
+		for (let index = 0; index < 12; index++) {
 			state.h.push([random(1, 4)]);
 		}
-		/*	nameEl.current.value = state.h[0];
-		state.num = nameEl.current.value; */
 	};
 
-	console.log('ok');
-
+	const Texts = ({ children }) => (
+		<Text
+			isTruncated
+			shadow='sm'
+			color='yellow.600'
+			textAlign='center'
+			fontSize='2rem'
+			fontFamily='initial'
+			fontWeight='extrabold'>
+			{children}
+		</Text>
+	);
 	const nameEl = React.useRef(null);
 	return (
 		<>
-			<Center m='40'>Tota: {snap.total}</Center>
-			<Center m='40'>
-				<VStack>
-					<Text>Your Lucky Number is: {snap.num}</Text>
+			<Center>
+				<SimpleGrid
+					columns={[1, null, 1]}
+					spacing='50px'
+					justify='center'
+					align='center'>
+					<HStack justify='stretch' minW='28rem'></HStack>
+					<Texts>Total Clicks: {snap.total}</Texts>
+					<Texts>Your Lucky Number is: {snap.num}</Texts>
 
 					<form onSubmit={handleSubmit}>
-						<input
+						<Input
+							defaultValue={snap.num}
+							color='yellow.600'
+							borderColor='yellow.800'
+							
+							w='3.5rem'
+							p='2'
+							textAlign='center'
 							required
 							min='1'
 							name='name'
-							max='5'
+							max='11'
 							step='1'
 							type='number'
 							ref={nameEl}
 						/>
+						<br />
 
-						<input type='submit' name='Submit' />
+						<Input
+							w='5rem'
+							p='2'
+							m='2'
+							type='submit'
+							name='Submit'
+							cursor='pointer'
+						/>
 					</form>
-				</VStack>
-			</Center>
 
-			{/* 			<Center m='40'>
+					{/* 			<Center m='40'>
 				<HStack spacing='0'>
-					{snap.h[0] === 1 && (
-						<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
-							{snap.h[1] !== 1 && <Text> 25%</Text>}
-						</Box>
+				{snap.h[0] === 1 && (
+					<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
+					{snap.h[1] !== 1 && <Text> 25%</Text>}
+					</Box>
 					)}
 					{snap.h[1] === 1 && (
 						<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
-							{snap.h[2] !== 1 && <Text> 50%</Text>}
+						{snap.h[2] !== 1 && <Text> 50%</Text>}
 						</Box>
-					)}
-					{snap.h[2] === 1 && (
-						<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
+						)}
+						{snap.h[2] === 1 && (
+							<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
 							{snap.h[3] !== 1 && <Text> 75%</Text>}
-						</Box>
-					)}
-					{snap.h[3] === 1 && (
-						<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
-							{snap.h[4] !== 1 && <Text> 100%</Text>}
-						</Box>
-					)}
-				</HStack>
-			</Center> */}
+							</Box>
+							)}
+							{snap.h[3] === 1 && (
+								<Box textAlign='right' bg='red' p='5' h='55px' w='50px'>
+								{snap.h[4] !== 1 && <Text> 100%</Text>}
+								</Box>
+								)}
+								</HStack>
+							</Center> */}
 
-			<Center mt='10%'>
-				<Boxes />
+					<Boxes />
+				</SimpleGrid>
 			</Center>
 		</>
 	);
