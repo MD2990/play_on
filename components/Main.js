@@ -50,7 +50,7 @@ const Boxes = ({ size }) => {
 								isDisabled={snap.h[index] == snap.num}
 								colorScheme='orange'
 								aria-label='Search database'
-								icon={icn[index]}
+								icon={icn[snap.h[index]]}
 								w='6rem'
 								h='6rem'
 								borderRadius='50%'
@@ -107,7 +107,6 @@ export default function Main() {
 	const toast = createStandaloneToast();
 
 	useEffect(() => {
-		console.log('rrr');
 		const ss = snap.h.filter((s) => s == snap.num).length;
 		ss == 4 &&
 			toast({
